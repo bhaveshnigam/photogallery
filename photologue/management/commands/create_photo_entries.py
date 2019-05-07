@@ -43,7 +43,6 @@ class Command(BaseCommand):
           year=time_obj.tm_year, month=time_obj.tm_mon, day=time_obj.tm_mday,
           hour=time_obj.tm_hour, minute=time_obj.tm_min, second=time_obj.tm_sec,
           tzinfo=timezone.now().tzinfo
-
         )
 
         slug = slugify(file.name)
@@ -66,17 +65,21 @@ class Command(BaseCommand):
           tzinfo=timezone.now().tzinfo
         )
 
-        slug = slugify(file.parent.name)
-        if Gallery.objects.filter(slug=slug).exists():
-          slug += '-%s' % index
+        title = file.parent.name
+        gallery = Gallery.objects.filter(title=title).first()
+        if not gallery:
+          slug = slugify(file.parent.name)
+          if Gallery.objects.filter(slug=slug).exists():
+            slug += '-%s' % index
 
-        gallery, _ = Gallery.objects.get_or_create(
-          title=file.parent.name,
-          slug=slug,
-          defaults={
-            'date_added': gallery_created_date,
-            'description':  str(file.parent),
-          }
-        )
-        gallery.sites.add(Site.objects.get_current())
+          gallery, _ = Gallery.objects.get_or_create(
+            title=file.parent.name,
+            slug=slug,
+            defaults={
+              'date_added': gallery_created_date,
+              'description': str(file.parent),
+            }
+          )
+          gallery.sites.add(Site.objects.get_current())
+
         gallery.photos.add(photo)
