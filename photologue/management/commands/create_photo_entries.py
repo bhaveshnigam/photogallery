@@ -5,6 +5,7 @@ from django.contrib.sites.models import Site
 from django.core.management import BaseCommand
 import pathlib
 
+from django.utils import timezone
 from django.utils.text import slugify
 
 from photologue.models import Gallery, Photo
