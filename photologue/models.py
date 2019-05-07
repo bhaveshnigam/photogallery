@@ -299,10 +299,10 @@ class ImageModel(models.Model):
     admin_thumbnail.allow_tags = True
 
     def cache_path(self):
-        return os.path.join(os.path.dirname(self.image.name), "cache")
+        return os.path.join(os.path.dirname(self.image.name), ".cache")
 
     def cache_url(self):
-        return '/'.join([os.path.dirname(self.image.url), "cache"])
+        return '/'.join([os.path.dirname(self.image.url), ".cache"])
 
     def image_filename(self):
         return os.path.basename(force_text(self.image.name))
