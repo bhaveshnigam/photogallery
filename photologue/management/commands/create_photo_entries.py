@@ -1,5 +1,6 @@
 import datetime
 import time
+from itertools import chain
 
 from django.contrib.sites.models import Site
 from django.core.management import BaseCommand
@@ -28,11 +29,9 @@ class Command(BaseCommand):
 
       dir_path = pathlib.Path(dir_path).expanduser()
 
-      jpeg_files = []
-      jpeg_files.extend(list(dir_path.glob('**/*.jpg')))
-      jpeg_files.extend(list(dir_path.glob('**/*.jpeg')))
-
-      for index, file in enumerate(jpeg_files):
+      index = 0
+      for file in chain(dir_path.glob('**/*.jpg'), dir_path.glob('**/*.jpeg')):
+        index += 1
         if str(file.parent.name).startswith('.'):
           continue
         if str(file.parent.name).startswith('cache'):

@@ -25,7 +25,7 @@ SECRET_KEY = '_q40bfrt)ga_1jxli5bg7zua10$1s9+vgoz@z#p)#b^&@5xiak'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bhaveshpi.local']
+ALLOWED_HOSTS = ['bhaveshpi.local', 'localhost']
 
 
 # Application definition
@@ -125,7 +125,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 STATICFILES_FINDERS = (

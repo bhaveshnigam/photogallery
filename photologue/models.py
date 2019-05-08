@@ -215,7 +215,7 @@ class Gallery(models.Model):
             photo_set = self.public()
         else:
             photo_set = self.photos.filter(sites__id=settings.SITE_ID)
-        return random.sample(set(photo_set), count)
+        return photo_set
 
     def photo_count(self, public=True):
         """Return a count of all the photos in this gallery."""
