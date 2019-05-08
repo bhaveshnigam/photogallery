@@ -38,6 +38,7 @@ class Command(BaseCommand):
           continue
         print(file)
         time_obj = time.localtime(file.stat().st_ctime)
+
         file_created_date = datetime.datetime(
           year=time_obj.tm_year, month=time_obj.tm_mon, day=time_obj.tm_mday,
           hour=time_obj.tm_hour, minute=time_obj.tm_min, second=time_obj.tm_sec,
@@ -63,6 +64,8 @@ class Command(BaseCommand):
           hour=time_obj.tm_hour, minute=time_obj.tm_min, second=time_obj.tm_sec,
           tzinfo=timezone.now().tzinfo
         )
+        if gallery_created_date > file_created_date:
+          gallery_created_date = file_created_date
 
         title = file.parent.name
         gallery = Gallery.objects.filter(title=title).first()
