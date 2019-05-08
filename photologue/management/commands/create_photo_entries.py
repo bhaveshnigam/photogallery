@@ -74,7 +74,7 @@ class Command(BaseCommand):
           if Gallery.objects.filter(slug=slug).exists():
             slug += '-%s' % index
 
-          gallery, _ = Gallery.objects.get_or_create(
+          gallery, created = Gallery.objects.get_or_create(
             title=file.parent.name,
             slug=slug,
             defaults={
@@ -82,6 +82,10 @@ class Command(BaseCommand):
               'description': str(file.parent),
             }
           )
+          if not created:
+            gallery.date_added = gallery_created_date
+            gallery.save()
+
           gallery.sites.add(Site.objects.get_current())
 
         gallery.photos.add(photo)
