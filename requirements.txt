@@ -8,6 +8,7 @@ ExifRead==2.1.2
 ipdb==0.12
 ipython==5.8.0
 ipython-genutils==0.2.0
+mysqlclient==1.4.2.post1
 pathlib2==2.3.3
 pexpect==4.7.0
 pickleshare==0.7.5
