@@ -41,7 +41,7 @@ LATEST_LIMIT = getattr(settings, 'PHOTOLOGUE_GALLERY_LATEST_LIMIT', None)
 SAMPLE_SIZE = getattr(settings, 'PHOTOLOGUE_GALLERY_SAMPLE_SIZE', 5)
 
 # max_length setting for the ImageModel ImageField
-IMAGE_FIELD_MAX_LENGTH = getattr(settings, 'PHOTOLOGUE_IMAGE_FIELD_MAX_LENGTH', 100)
+IMAGE_FIELD_MAX_LENGTH = getattr(settings, 'PHOTOLOGUE_IMAGE_FIELD_MAX_LENGTH', 700)
 
 # Path to sample image
 SAMPLE_IMAGE_PATH = getattr(settings, 'PHOTOLOGUE_SAMPLE_IMAGE_PATH', os.path.join(
@@ -180,6 +180,8 @@ class Gallery(models.Model):
     sites = models.ManyToManyField(Site, verbose_name=_(u'sites'),
                                    blank=True)
 
+    complete_view = models.BooleanField(default=False)
+
     objects = GalleryQuerySet.as_manager()
 
     class Meta:
@@ -215,7 +217,10 @@ class Gallery(models.Model):
             photo_set = self.public()
         else:
             photo_set = self.photos.filter(sites__id=settings.SITE_ID)
-        return photo_set
+        if self.complete_view:
+            return photo_set
+        else:
+            return random.sample(set(photo_set), count)
 
     def photo_count(self, public=True):
         """Return a count of all the photos in this gallery."""

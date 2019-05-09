@@ -43,6 +43,8 @@ class GalleryAdmin(admin.ModelAdmin):
             'remove_photos_from_current_site'
         ]
 
+    actions = ['mark_gallery_as_non_public', 'mark_gallery_as_detailed']
+
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         """ Set the current site as initial value. """
         if db_field.name == "sites":
@@ -122,6 +124,30 @@ class GalleryAdmin(admin.ModelAdmin):
     remove_photos_from_current_site.short_description = \
         _("Remove all photos in selected galleries from the current site")
 
+
+    def mark_gallery_as_detailed(self, request, queryset):
+        rows_updated = queryset.update(complete_view=True)
+        if rows_updated == 1:
+            message_bit = "1 gallery was"
+        else:
+            message_bit = "%s galleries were" % rows_updated
+        self.message_user(
+            request, "%s successfully updated." % message_bit)
+
+    mark_gallery_as_detailed.short_description = (
+        "Mark selected as Detailed view ")
+
+    def mark_gallery_as_non_public(self, request, queryset):
+        rows_updated = queryset.update(is_public=False)
+        if rows_updated == 1:
+            message_bit = "1 gallery was"
+        else:
+            message_bit = "%s galleries were" % rows_updated
+        self.message_user(
+            request, "%s successfully updated." % message_bit)
+
+    mark_gallery_as_non_public.short_description = (
+        "Mark selected as Non-pubic ")
 
 admin.site.register(Gallery, GalleryAdmin)
 
