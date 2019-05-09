@@ -27,7 +27,7 @@ class GalleryAdminForm(forms.ModelForm):
 
 class GalleryAdmin(admin.ModelAdmin):
     list_display = ('title', 'date_added', 'photo_count', 'is_public', 'complete_view')
-    list_filter = ['date_added', 'is_public', 'complete_view']
+    list_filter = ['date_added', 'is_public', 'complete_view', 'photo_count']
     if MULTISITE:
         list_filter.append('sites')
     date_hierarchy = 'date_added'
