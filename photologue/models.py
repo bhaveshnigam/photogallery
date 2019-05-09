@@ -202,7 +202,7 @@ class Gallery(models.Model):
         if public:
             return self.public()[:limit]
         else:
-            return self.photos.filter(sites__id=settings.SITE_ID)[:limit]
+            return self.photos.filter()[:limit]
 
     def sample(self, count=None, public=True):
         """Return a sample of photos, ordered at random.
@@ -216,24 +216,24 @@ class Gallery(models.Model):
         if public:
             photo_set = self.public()
         else:
-            photo_set = self.photos.filter(sites__id=settings.SITE_ID).order_by('title')
+            photo_set = self.photos.filter().order_by('title')
         if self.complete_view:
             return photo_set
         else:
-            return random.sample(set(photo_set), count)
+            return photo_set[:count]
 
     def photo_count(self, public=True):
         """Return a count of all the photos in this gallery."""
         if public:
             return self.public().count()
         else:
-            return self.photos.filter(sites__id=settings.SITE_ID).count()
+            return self.photos.filter().count()
 
     photo_count.short_description = _('count')
 
     def public(self):
         """Return a queryset of all the public photos in this gallery."""
-        return self.photos.is_public().filter(sites__id=settings.SITE_ID)
+        return self.photos.is_public().filter()
 
     def orphaned_photos(self):
         """
