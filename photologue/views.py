@@ -10,16 +10,16 @@ from .models import Photo, Gallery
 
 
 class GalleryListView(ListView):
-    queryset = Gallery.objects.on_site().is_public()
+    queryset = Gallery.objects.is_public()
     paginate_by = 20
 
 
 class GalleryDetailView(DetailView):
-    queryset = Gallery.objects.on_site().is_public()
+    queryset = Gallery.objects.is_public()
 
 
 class GalleryDateView(object):
-    queryset = Gallery.objects.on_site().is_public()
+    queryset = Gallery.objects.is_public()
     date_field = 'date_added'
     allow_empty = True
 
@@ -47,16 +47,16 @@ class GalleryYearArchiveView(GalleryDateView, YearArchiveView):
 
 
 class PhotoListView(ListView):
-    queryset = Photo.objects.on_site().is_public()
+    queryset = Photo.objects.is_public()
     paginate_by = 20
 
 
 class PhotoDetailView(DetailView):
-    queryset = Photo.objects.on_site().is_public()
+    queryset = Photo.objects.is_public()
 
 
 class PhotoDateView(object):
-    queryset = Photo.objects.on_site().is_public()
+    queryset = Photo.objects.is_public()
     date_field = 'date_added'
     allow_empty = True
 
