@@ -43,7 +43,8 @@ class GalleryAdmin(admin.ModelAdmin):
             'remove_photos_from_current_site'
         ]
 
-    actions = ['mark_gallery_as_non_public', 'mark_gallery_as_detailed']
+    actions = ['mark_gallery_as_non_public', 'mark_gallery_as_detailed',
+               'mark_gallery_as_public', 'mark_gallery_as_not_detailed',]
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         """ Set the current site as initial value. """
@@ -146,8 +147,29 @@ class GalleryAdmin(admin.ModelAdmin):
         self.message_user(
             request, "%s successfully updated." % message_bit)
 
-    mark_gallery_as_non_public.short_description = (
-        "Mark selected as Non-pubic ")
+    def mark_gallery_as_not_detailed(self, request, queryset):
+        rows_updated = queryset.update(complete_view=False)
+        if rows_updated == 1:
+            message_bit = "1 gallery was"
+        else:
+            message_bit = "%s galleries were" % rows_updated
+        self.message_user(
+            request, "%s successfully updated." % message_bit)
+
+    mark_gallery_as_not_detailed.short_description = (
+        "Mark selected as not detailed view ")
+
+    def mark_gallery_as_public(self, request, queryset):
+        rows_updated = queryset.update(is_public=True)
+        if rows_updated == 1:
+            message_bit = "1 gallery was"
+        else:
+            message_bit = "%s galleries were" % rows_updated
+        self.message_user(
+            request, "%s successfully updated." % message_bit)
+
+    mark_gallery_as_public.short_description = (
+        "Mark selected as public ")
 
 admin.site.register(Gallery, GalleryAdmin)
 
