@@ -729,3 +729,6 @@ pip-selfcheck.json
 
 
 .DS_Store
+
+*.pid
+static/
