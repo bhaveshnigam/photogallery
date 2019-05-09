@@ -216,7 +216,7 @@ class Gallery(models.Model):
         if public:
             photo_set = self.public()
         else:
-            photo_set = self.photos.filter(sites__id=settings.SITE_ID)
+            photo_set = self.photos.filter(sites__id=settings.SITE_ID).order_by('title')
         if self.complete_view:
             return photo_set
         else:
