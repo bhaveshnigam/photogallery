@@ -22,8 +22,8 @@ class Command(BaseCommand):
                             help='Directory path to iterate and create entries in the system')
 
     def handle(self, *args, **options):
-      Photo.objects.all().delete()
-      Gallery.objects.all().delete()
+      # Photo.objects.all().delete()
+      # Gallery.objects.all().delete()
 
       dir_path = options['dir_path']
 
