@@ -34,8 +34,6 @@ class Command(BaseCommand):
           continue
         if str(file.parent.name).startswith('cache'):
           continue
-        if 'archived' in str(file.parent.name).lower():
-          continue
 
         print(file)
         time_obj = time.localtime(file.stat().st_ctime)
