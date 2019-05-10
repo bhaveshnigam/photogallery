@@ -30,7 +30,7 @@ class Command(BaseCommand):
       dir_path = pathlib.Path(dir_path).expanduser()
 
       index = 0
-      for file in chain(dir_path.glob('**/*.jpg'), dir_path.glob('**/*.jpeg')):
+      for file in chain(dir_path.glob('**/*.jpg'), dir_path.glob('**/*.jpeg'), dir_path.glob('**/*.JPG'), dir_path.glob('**/*.JPEG')):
         index += 1
         if str(file.parent.name).startswith('.'):
           continue
