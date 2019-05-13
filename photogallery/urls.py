@@ -22,7 +22,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='photologue/gallery/')),
+    path('', RedirectView.as_view(url='photologue/gallerylist/')),
     url(r'^photologue/', include('photologue.urls', namespace='photologue')),
 ] + static(settings.MEDIA_URL, document_root='/')
 
