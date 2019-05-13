@@ -11,7 +11,7 @@
         {% if gallery.description %}<p>{{ gallery.description|safe }}</p>{% endif %}
 
 	    {% for photo in gallery.public %}
-	        <a href="">
+	        <a href="{{ photo.get_absolute_url }}">
 	             <img class="thumbnail" alt="{{ photo.title }}">
 	        </a>
 	    {% endfor %}
