@@ -8,11 +8,11 @@ class SharedQueries(object):
 
     def is_public(self):
         """Trivial filter - will probably become more complex as time goes by!"""
-        return self.filter(is_public=True).order_by('id')
+        return self.filter(is_public=True)
 
     def on_site(self):
         """Return objects linked to the current site only."""
-        return self.filter(sites__id=settings.SITE_ID).order_by('id')
+        return self.filter(sites__id=settings.SITE_ID)
 
 
 class GalleryQuerySet(SharedQueries, QuerySet):
