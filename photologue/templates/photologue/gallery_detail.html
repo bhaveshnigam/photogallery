@@ -12,7 +12,7 @@
 
 	    {% for photo in gallery.public %}
 	        <a href="{{ photo.get_absolute_url }}">
-	             <img src="{{ photo.get_thumbnail_url }}" class="thumbnail" alt="{{ photo.title }}">
+	             <img src="" lsrc="{{ photo.get_thumbnail_url }}" class="thumbnail" alt="{{ photo.title }}">
 	        </a>
 	    {% endfor %}
         <div><a href="{% url 'photologue:gallery-list' %}" class="btn btn-default">{% trans "View all galleries" %}</a></div>
