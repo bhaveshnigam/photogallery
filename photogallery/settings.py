@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'haystack',
+    'elasticstack',
+
     'photologue',
     'sortedm2m',
 ]
@@ -142,6 +145,22 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
 MEDIA_URL = '/media/'
+
+
+
+
+ELASTICSEARCH_DEFAULT_NGRAM_SEARCH_ANALYZER = 'standard'
+
+
+# Haystack settings
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'elasticstack.backends.ConfigurableElasticSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'photogallery',
+    },
+}
+
 
 
 # Keep this at bottom of file
