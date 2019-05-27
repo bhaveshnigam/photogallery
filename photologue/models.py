@@ -904,6 +904,15 @@ class PhotoSizeCache(object):
         self.sizes = {}
 
 
+class Photopath(models.Model):
+
+    path = models.TextField()
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return '%s' % self.pk
+
+
 def init_size_method_map():
     global size_method_map
     for size in PhotoSizeCache().sizes.keys():

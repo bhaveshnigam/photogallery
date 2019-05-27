@@ -1,9 +1,12 @@
+from django.http import JsonResponse, HttpResponseRedirect, Http404
+from django.views.generic.base import View
 from django.views.generic.dates import ArchiveIndexView, DateDetailView, DayArchiveView, MonthArchiveView, \
     YearArchiveView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from haystack.query import SearchQuerySet
 
-from .models import Photo, Gallery
+from .models import Photo, Gallery, Photopath
 
 
 # Gallery views.
@@ -79,3 +82,38 @@ class PhotoMonthArchiveView(PhotoDateView, MonthArchiveView):
 
 class PhotoYearArchiveView(PhotoDateView, YearArchiveView):
     make_object_list = True
+
+
+
+class AutocompleteQuery(View):
+  http_method_names = ['get']
+
+  def get(self, request, *args, **kwargs):
+    query = request.GET.get('q', '')
+    if not query:
+      return JsonResponse(list(), safe=False)
+
+    query = query.strip()
+
+    sqs = SearchQuerySet().autocomplete(
+        content_auto__icontains=query.strip(),
+    )
+    sqs = sqs[:100]
+
+    suggestions = []
+    for result in sqs:
+        suggestions.append(result.searchindex.get_result_json(result))
+
+    return JsonResponse(list(suggestions), safe=False)
+
+
+class DownloadPhoto(View):
+  http_method_names = ['get']
+
+  def get(self, request, *args, **kwargs):
+      photopath = Photopath.objects.filter(id=self.kwargs.get('pk')).first()
+      if not photopath:
+          raise Http404
+      return HttpResponseRedirect(
+          '/media' + photopath.path
+      )

@@ -20,10 +20,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.views.generic import RedirectView
 
+from photologue.views import AutocompleteQuery, DownloadPhoto
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='photologue/gallerylist/')),
     url(r'^photologue/', include('photologue.urls', namespace='photologue')),
+    path('autocomplete-query/', AutocompleteQuery.as_view()),
+    url(r'^download-photo/(?P<pk>[-\d]+)/$', DownloadPhoto.as_view()),
+
 ] + static(settings.MEDIA_URL, document_root='/')
 
 if settings.DEBUG:
