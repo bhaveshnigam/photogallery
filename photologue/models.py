@@ -221,7 +221,7 @@ class Gallery(models.Model):
             if public:
                 photo_set = self.public()
             else:
-                photo_set = self.photos.filter().order_by('date_added')
+                photo_set = self.photos.filter().order_by('-date_added')
             if self.complete_view:
                 return photo_set
             else:
@@ -244,7 +244,7 @@ class Gallery(models.Model):
 
         @memoize(settings.DEFAULT_CACHE_TIMEOUT)
         def _get_public(gallery_id):
-            return self.photos.is_public().filter().order_by('date_added')
+            return self.photos.is_public().filter().order_by('-date_added')
 
         return _get_public(self.pk)
 
