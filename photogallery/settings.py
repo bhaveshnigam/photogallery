@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'haystack',
     'elasticstack',
+    'memoize',
 
     'photologue',
     'sortedm2m',
@@ -161,6 +162,8 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+
+DEFAULT_CACHE_TIMEOUT = 1 * 24 * 60 * 60
 
 
 # Keep this at bottom of file

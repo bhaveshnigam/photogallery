@@ -28,6 +28,8 @@ from django.utils.translation import ugettext_lazy as _
 from io import BytesIO
 from sortedm2m.fields import SortedManyToManyField
 
+from memoize import memoize
+
 from .managers import GalleryQuerySet, PhotoQuerySet
 from .utils.reflection import add_reflection
 from .utils.watermark import apply_watermark
@@ -209,18 +211,24 @@ class Gallery(models.Model):
         If the 'count' is not specified, it will return a number of photos
         limited by the GALLERY_SAMPLE_SIZE setting.
         """
-        if not count:
-            count = SAMPLE_SIZE
-        if count > self.photo_count():
-            count = self.photo_count()
-        if public:
-            photo_set = self.public()
-        else:
-            photo_set = self.photos.filter().order_by('title')
-        if self.complete_view:
-            return photo_set
-        else:
-            return photo_set[:count]
+
+        @memoize(settings.DEFAULT_CACHE_TIMEOUT)
+        def _get_samples(gallery_id, count):
+            if not count:
+                count = SAMPLE_SIZE
+            if count > self.photo_count():
+                count = self.photo_count()
+            if public:
+                photo_set = self.public()
+            else:
+                photo_set = self.photos.filter().order_by('date_added')
+            if self.complete_view:
+                return photo_set
+            else:
+                return photo_set[:count]
+
+        return _get_samples(self.pk, count)
+
 
     def photo_count(self, public=True):
         """Return a count of all the photos in this gallery."""
@@ -233,15 +241,23 @@ class Gallery(models.Model):
 
     def public(self):
         """Return a queryset of all the public photos in this gallery."""
-        return self.photos.is_public().filter()
+
+        @memoize(settings.DEFAULT_CACHE_TIMEOUT)
+        def _get_public(gallery_id):
+            return self.photos.is_public().filter().order_by('date_added')
+
+        return _get_public(self.pk)
 
     def orphaned_photos(self):
         """
         Return all photos that belong to this gallery but don't share the
         gallery's site.
         """
-        return self.photos.filter(is_public=True) \
-            .exclude(sites__id__in=self.sites.all())
+        return self.photos.filter(
+            is_public=True
+        ).exclude(
+            sites__id__in=self.sites.all()
+        )
 
 
 class ImageModel(models.Model):
