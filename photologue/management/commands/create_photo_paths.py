@@ -30,6 +30,13 @@ class Command(BaseCommand):
       for file in chain(dir_path.glob('**/*.jpg'), dir_path.glob('**/*.jpeg'), dir_path.glob('**/*.JPG'), dir_path.glob('**/*.JPEG'), dir_path.glob('**/*.NEF'), dir_path.glob('**/*.nef'), dir_path.glob('**/*.DNG'), dir_path.glob('**/*.dng')):
         if '.AppleDouble' in str(file):
           continue
+        if '.cache' in str(file).lower():
+          continue
+
+        if str(file.parent.name).startswith('.'):
+          continue
+        if str(file.parent.name).startswith('cache'):
+          continue
 
         print(str(file))
         Photopath.objects.get_or_create(
