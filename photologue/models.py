@@ -639,7 +639,7 @@ class Photo(ImageModel):
             first_file = raw_results[0]
             path = first_file.searchindex.get_result_json(first_file).get('path')
             if path:
-                return 'media/%s' % path
+                return '%s/media%s' % (Site.objects.get_current().domain, path)
             return ''
         return ''
 
