@@ -13,7 +13,8 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 		    {% if object.caption %}<p>{{ object.caption|safe }}</p>{% endif %}
-        <a href="{{ object.raw_photo_url }}">RAW</a>
+        <p><a href="{{ object.raw_photo_url }}">RAW</a></p>
+        <br>
 		    <a href="{{ object.image.url }}">
 		        <img src="{{ object.get_display_url }}" class="thumbnail" alt="{{ object.title }}">
 		    </a>
