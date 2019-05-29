@@ -26,6 +26,8 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from io import BytesIO
+
+from haystack.query import SearchQuerySet
 from sortedm2m.fields import SortedManyToManyField
 
 from memoize import memoize
@@ -611,6 +613,33 @@ class Photo(ImageModel):
             if photo == self:
                 matched = True
         return None
+
+    def raw_photo_url(self):
+        raw_results = list(SearchQuerySet().autocomplete(
+            content_auto__icontains='%s.NEF' % self.title.split('.')[0]
+        ))
+        if not raw_results:
+            raw_results = list(SearchQuerySet().autocomplete(
+                content_auto__icontains='%s.dng' % self.title.split('.')[0]
+            ))
+        if not raw_results:
+            raw_results = list(SearchQuerySet().autocomplete(
+                content_auto__icontains='%s.DNG' % self.title.split('.')[0]
+            ))
+        if not raw_results:
+            raw_results = list(SearchQuerySet().autocomplete(
+                content_auto__icontains='%s.nef' % self.title.split('.')[0]
+            ))
+        if not raw_results:
+            raw_results = list(SearchQuerySet().autocomplete(
+                content_auto__icontains='%s.tif' % self.title.split('.')[0]
+            ))
+
+        if raw_results:
+            first_file = raw_results[0]
+            return 'media/%s' % first_file.searchindex.get_result_json(
+                first_file).path
+        return ''
 
 
 @python_2_unicode_compatible
