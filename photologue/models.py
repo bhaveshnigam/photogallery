@@ -637,8 +637,10 @@ class Photo(ImageModel):
 
         if raw_results:
             first_file = raw_results[0]
-            return 'media/%s' % first_file.searchindex.get_result_json(
-                first_file).path
+            path = first_file.searchindex.get_result_json(first_file).get('path')
+            if path:
+                return 'media/%s' % path
+            return ''
         return ''
 
 
