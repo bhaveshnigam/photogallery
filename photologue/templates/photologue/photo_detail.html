@@ -11,16 +11,14 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8 col-md-offset-2">
 		    {% if object.caption %}<p>{{ object.caption|safe }}</p>{% endif %}
+        <a href="{{ object.raw_photo_url }}">RAW</a>
 		    <a href="{{ object.image.url }}">
 		        <img src="{{ object.get_display_url }}" class="thumbnail" alt="{{ object.title }}">
 		    </a>
         </div>
-        <div class="col-md-6">
-          <a href="{{ object.raw_photo_url }}">RAW</a>
-        </div>
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             {% if object.public_galleries %}
                 <p>{% trans "This photo is found in the following galleries" %}:</p>
                 <table>
