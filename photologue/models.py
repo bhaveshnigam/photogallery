@@ -636,8 +636,17 @@ class Photo(ImageModel):
             ))
 
         if raw_results:
-            first_file = raw_results[0]
-            path = first_file.searchindex.get_result_json(first_file).get('path')
+            path = None
+            for result in raw_results:
+                result_path = result.searchindex.get_result_json(result).get('path')
+                tokens = result_path.split('/')
+                for token in tokens[-2::-1]:
+                    if token in self.caption:
+                        path = result_path
+                        break
+                if path:
+                    break
+
             if path:
                 return '//%s/media%s' % (Site.objects.get_current().domain, path)
             return ''
