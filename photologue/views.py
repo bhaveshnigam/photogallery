@@ -93,7 +93,9 @@ class AutocompleteQuery(View):
     if not query:
       return JsonResponse(list(), safe=False)
 
-    query = query.strip()
+    query = query.strip().split('.')
+    if query:
+      query = query[0]
 
     sqs = SearchQuerySet().autocomplete(
         content_auto__icontains=query.strip(),
