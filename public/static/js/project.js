@@ -56,5 +56,4 @@ $(document).ready(function() {
     $('ul.navbar-nav li.photos').addClass('active');
   }
   Common.bindUniversalSearchLookup();
-  $('a').miniPreview({ prefetch: 'parenthover' });
 });
