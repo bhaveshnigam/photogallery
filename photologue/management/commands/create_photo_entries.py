@@ -69,6 +69,7 @@ class Command(BaseCommand):
           hour=time_obj.tm_hour, minute=time_obj.tm_min, second=time_obj.tm_sec,
           tzinfo=timezone.now().tzinfo
         )
+
         if file_created_date > gallery_created_date:
           gallery_created_date = file_created_date
 
@@ -90,7 +91,7 @@ class Command(BaseCommand):
           )
           if not created:
             gallery.date_added = gallery_created_date
-            gallery.save()
+            gallery.save(update_fields=['date_added'])
 
           gallery.sites.add(Site.objects.get_current())
 
