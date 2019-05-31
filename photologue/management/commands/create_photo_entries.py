@@ -49,9 +49,12 @@ class Command(BaseCommand):
         slug = slugify(str(file.name).lower())
 
         photo = Photo.objects.filter(
-              slug=slug,
-              image_path=str(file)
+            slug=slug,
+            image_path=str(file)
         ).first()
+
+        if not photo and Photo.objects.filter(slug=slug).exists():
+          slug += '-%s' % index
 
         if not photo:
           photo, _ = Photo.objects.get_or_create(
