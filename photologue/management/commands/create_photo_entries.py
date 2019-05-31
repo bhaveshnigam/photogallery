@@ -76,7 +76,6 @@ class Command(BaseCommand):
         if file_created_date > gallery_created_date:
           gallery_created_date = file_created_date
 
-
         title = file.parent.name
         gallery = Gallery.objects.filter(title=title).first()
         if not gallery:
@@ -97,6 +96,9 @@ class Command(BaseCommand):
             gallery.save(update_fields=['date_added'])
 
           gallery.sites.add(Site.objects.get_current())
+        else:
+          gallery.date_added = gallery_created_date
+          gallery.save(update_fields=['date_added'])
 
         if photo:
           gallery.photos.add(photo)
