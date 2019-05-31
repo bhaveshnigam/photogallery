@@ -32,6 +32,8 @@ class Command(BaseCommand):
         index += 1
         if str(file.parent.name).startswith('.'):
           continue
+        if str(file.name).startswith('.'):
+          continue
         if str(file.parent.name).startswith('cache'):
           continue
 
@@ -39,26 +41,30 @@ class Command(BaseCommand):
         time_obj = time.localtime(file.stat().st_ctime)
 
         file_created_date = datetime.datetime(
-          year=time_obj.tm_year, month=time_obj.tm_mon, day=time_obj.tm_mday,
-          hour=time_obj.tm_hour, minute=time_obj.tm_min, second=time_obj.tm_sec,
-          tzinfo=timezone.now().tzinfo
+            year=time_obj.tm_year, month=time_obj.tm_mon, day=time_obj.tm_mday,
+            hour=time_obj.tm_hour, minute=time_obj.tm_min, second=time_obj.tm_sec,
+            tzinfo=timezone.now().tzinfo
         )
 
         slug = slugify(str(file.name).lower())
+
+        if Photo.objects.filter(slug=slug).count() >= 1:
+          slug = '%s-%s' % (slug, index)
+
         photo = Photo.objects.filter(
               slug=slug,
               image_path=str(file)
-          ).first()
-        if Photo.objects.filter(slug=slug).exists():
-          if not photo:
-            photo, _ = Photo.objects.get_or_create(
-              image_path=str(file),
-              title=file.name,
-              date_added=file_created_date,
-              caption=str(file),
-              slug=slug
-            )
-            photo.sites.add(Site.objects.get_current())
+        ).first()
+
+        if not photo:
+          photo, _ = Photo.objects.get_or_create(
+            image_path=str(file),
+            title=file.name,
+            date_added=file_created_date,
+            caption=str(file),
+            slug=slug
+          )
+          photo.sites.add(Site.objects.get_current())
 
         time_obj = time.localtime(file.parent.stat().st_ctime)
         gallery_created_date = datetime.datetime(
