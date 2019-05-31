@@ -48,9 +48,6 @@ class Command(BaseCommand):
 
         slug = slugify(str(file.name).lower())
 
-        if Photo.objects.filter(slug=slug).count() >= 1:
-          slug = '%s-%s' % (slug, index)
-
         photo = Photo.objects.filter(
               slug=slug,
               image_path=str(file)
