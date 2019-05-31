@@ -45,23 +45,20 @@ class Command(BaseCommand):
         )
 
         slug = slugify(str(file.name).lower())
+        photo = None
         if Photo.objects.filter(slug=slug).exists():
-          if Photo.objects.filter(
+          if not Photo.objects.filter(
               slug=slug,
               image_path=str(file)
           ).exists():
-            continue
-          else:
-            slug += '-%s' % index
-
-        photo, _ = Photo.objects.get_or_create(
-          image_path=str(file),
-          title=file.name,
-          date_added=file_created_date,
-          caption=str(file),
-          slug=slug
-        )
-        photo.sites.add(Site.objects.get_current())
+            photo, _ = Photo.objects.get_or_create(
+              image_path=str(file),
+              title=file.name,
+              date_added=file_created_date,
+              caption=str(file),
+              slug=slug
+            )
+            photo.sites.add(Site.objects.get_current())
 
         time_obj = time.localtime(file.parent.stat().st_ctime)
         gallery_created_date = datetime.datetime(
@@ -95,4 +92,5 @@ class Command(BaseCommand):
 
           gallery.sites.add(Site.objects.get_current())
 
-        gallery.photos.add(photo)
+        if photo:
+          gallery.photos.add(photo)
