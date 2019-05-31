@@ -69,8 +69,9 @@ class Command(BaseCommand):
           hour=time_obj.tm_hour, minute=time_obj.tm_min, second=time_obj.tm_sec,
           tzinfo=timezone.now().tzinfo
         )
-        if gallery_created_date > file_created_date:
+        if file_created_date > gallery_created_date:
           gallery_created_date = file_created_date
+
 
         title = file.parent.name
         gallery = Gallery.objects.filter(title=title).first()
