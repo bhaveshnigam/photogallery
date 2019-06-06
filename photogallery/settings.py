@@ -166,6 +166,14 @@ HAYSTACK_CONNECTIONS = {
 DEFAULT_CACHE_TIMEOUT = 1 * 24 * 60 * 60
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    },
+}
+
+
 # Keep this at bottom of file
 try:
     from photogallery.local_settings import *
