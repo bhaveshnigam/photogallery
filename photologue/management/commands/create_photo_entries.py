@@ -46,7 +46,7 @@ class Command(BaseCommand):
             tzinfo=timezone.now().tzinfo
         )
 
-        slug = slugify(str(file.name).lower())
+        slug = slugify(str(file).lower())
 
         photo = Photo.objects.filter(
             slug=slug,
