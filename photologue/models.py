@@ -648,7 +648,7 @@ class Photo(ImageModel):
                     break
 
             if path:
-                return '//%s/media%s' % (Site.objects.get_current().domain, path)
+                return '/media%s' % path
             return ''
         return ''
 
