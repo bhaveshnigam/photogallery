@@ -637,7 +637,7 @@ class Photo(ImageModel):
 
         if raw_results:
             path = None
-            for result in raw_results:
+            for result in raw_results[::-1]:
                 result_path = result.searchindex.get_result_json(result).get('path')
                 tokens = result_path.split('/')
                 for token in tokens[-2::-1]:
