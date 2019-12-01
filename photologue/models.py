@@ -615,7 +615,6 @@ class Photo(ImageModel):
         return None
 
     def raw_photo_url(self):
-        return ''
         raw_results = list(SearchQuerySet().autocomplete(
             content_auto__icontains='%s.NEF' % self.title.split('.')[0]
         ))
