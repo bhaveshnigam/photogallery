@@ -27,7 +27,14 @@ class Command(BaseCommand):
 
       dir_path = pathlib.Path(dir_path).expanduser()
 
-      for file in chain(dir_path.glob('**/*.NEF'), dir_path.glob('**/*.nef'), dir_path.glob('**/*.DNG'), dir_path.glob('**/*.dng')):
+      for file in chain(
+        dir_path.glob('**/*.NEF'),
+        dir_path.glob('**/*.nef'),
+        dir_path.glob('**/*.DNG'),
+        dir_path.glob('**/*.dng'),
+        dir_path.glob('**/*.ARW'),
+        dir_path.glob('**/*.arw')
+      ):
         if '.AppleDouble' in str(file):
           continue
         if '.cache' in str(file).lower():
