@@ -25,7 +25,7 @@ SECRET_KEY = '_q40bfrt)ga_1jxli5bg7zua10$1s9+vgoz@z#p)#b^&@5xiak'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bhaveshpi.local', 'localhost', '10.8.0.6']
+ALLOWED_HOSTS = ['bhaveshpi.local', 'localhost', '10.192.122.8', 'pi4.local', 'raspberrypi4']
 
 
 # Application definition
