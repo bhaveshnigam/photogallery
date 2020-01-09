@@ -635,6 +635,16 @@ class Photo(ImageModel):
                 content_auto__icontains='%s.tif' % self.title.split('.')[0]
             ))
 
+        if not raw_results:
+            raw_results = list(SearchQuerySet().autocomplete(
+                content_auto__icontains='%s.arw' % self.title.split('.')[0]
+            ))
+
+        if not raw_results:
+            raw_results = list(SearchQuerySet().autocomplete(
+                content_auto__icontains='%s.ARW' % self.title.split('.')[0]
+            ))
+
         if raw_results:
             path = None
             for result in raw_results[::-1]:
