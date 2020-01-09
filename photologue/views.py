@@ -51,7 +51,7 @@ class GalleryYearArchiveView(GalleryDateView, YearArchiveView):
 
 class PhotoListView(ListView):
     queryset = Photo.objects.is_public()
-    paginate_by = 200
+    paginate_by = 1000
 
 
 class PhotoDetailView(DetailView):
