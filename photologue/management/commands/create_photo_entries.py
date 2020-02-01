@@ -89,7 +89,7 @@ class Command(BaseCommand):
             slug += '-%s' % index
 
           gallery, created = Gallery.objects.get_or_create(
-            title=file.parent.name,
+            title=gallery_title,
             slug=slug,
             defaults={
               'date_added': gallery_created_date,
