@@ -76,8 +76,13 @@ class Command(BaseCommand):
         if file_created_date > gallery_created_date:
           gallery_created_date = file_created_date
 
-        title = file.parent.name
-        gallery = Gallery.objects.filter(title=title).first()
+        file_parent_name = file.parent.name
+        if file_parent_name in ['Z6', 'A6400', 'D7200', 'D5100']:
+          gallery_title = '%s-%s'% (file.parent.parent.name, file.parent.name)
+        else:
+          gallery_title = file_parent_name
+
+        gallery = Gallery.objects.filter(title=gallery_title).first()
         if not gallery:
           slug = slugify(file.parent.name)
           if Gallery.objects.filter(slug=slug).exists():
