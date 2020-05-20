@@ -27,7 +27,7 @@ class PhotopathIndexes(indexes.SearchIndex, indexes.Indexable):
 
 class GalleryIndexes(indexes.SearchIndex, indexes.Indexable):
   text = indexes.CharField(document=True, use_template=True)
-  title = indexes.CharField(model_attr='name')
+  title = indexes.CharField(model_attr='title')
   content_auto = indexes.EdgeNgramField()
 
   def get_model(self):
