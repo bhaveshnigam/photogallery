@@ -77,8 +77,8 @@ class Command(BaseCommand):
           gallery_created_date = file_created_date
 
         file_parent_name = file.parent.name
-        if file_parent_name in ['Z6', 'A6400', 'D7200', 'D5100']:
-          gallery_title = '%s-%s'% (file.parent.parent.name, file.parent.name)
+        if file_parent_name in ['Z6', 'A6400', 'D7200', 'D5100', 'MavicAir']:
+          gallery_title = '[RAW] %s - %s'% (file.parent.parent.name, file.parent.name)
         else:
           gallery_title = file_parent_name
 

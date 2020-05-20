@@ -36,9 +36,14 @@ Common.bindUniversalSearchLookup = function () {
       },
       callback: {
         onClickAfter: function (node, a, item, event) {
-          self.isTypeaheadOpen = false;
-          window.location.href = '/download-photo/' + item.id;
-          $("#universal-search").val('');
+          if (item.isAlbum) {
+            window.location.href = `photologue/gallery/${item.slug}/`;
+            $("#universal-search").val('');
+          } else {
+            self.isTypeaheadOpen = false;
+            window.location.href = `/download-photo/${item.id}`;
+            $("#universal-search").val('');
+          }
         },
       }
     });
