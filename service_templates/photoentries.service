@@ -1,0 +1,13 @@
+[Unit]
+Description=Photogallery Create Photo Entries
+After=network.target
+
+[Service]
+User=pi
+Group=www-data
+WorkingDirectory=/home/pi/Projects/photogallery
+ExecStart=/home/pi/Projects/photogallery/venv/bin/python /home/pi/Projects/photogallery/manage.py create_photo_entries /mnt/Bhavesh2TB/Photo/Exports/
+
+[Install]
+WantedBy=multi-user.target
+

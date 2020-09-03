@@ -1,0 +1,15 @@
+server {
+    listen 80;
+    server_name pi4.local;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/pi/Projects/photogallery;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/pi/Projects/photogallery/photogallery.sock;
+    }
+}
+

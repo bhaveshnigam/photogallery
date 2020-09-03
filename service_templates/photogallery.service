@@ -1,0 +1,13 @@
+[Unit]
+Description=Photogallery main service
+After=network.target
+
+[Service]
+User=pi
+Group=www-data
+WorkingDirectory=/home/pi/Projects/photogallery
+ExecStart=/home/pi/Projects/photogallery/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/pi/Projects/photogallery/photogallery.sock photogallery.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
